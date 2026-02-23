@@ -1,16 +1,16 @@
 [phases.setup]
-nixPkgs = ["php83", "php83Extensions.pdo_mysql", "php83Extensions.mbstring", "php83Extensions.xml", "php83Extensions.curl", "php83Extensions.tokenizer", "php83Extensions.fileinfo"]
+nixPkgs = ["php83", "nodejs_20", "npm", "php83Extensions.pdo_mysql", "php83Extensions.mbstring", "php83Extensions.xml", "php83Extensions.curl", "php83Extensions.tokenizer", "php83Extensions.fileinfo"]
 
 [phases.build]
 cmds = [
     "composer install --no-dev --optimize-autoloader",
     "npm ci",
     "npm run build",
+    "mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data",
+    "chmod -R 775 storage bootstrap/cache",
     "php artisan config:cache",
     "php artisan route:cache",
-    "php artisan view:cache",
-    "mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data",
-    "chmod -R 775 storage bootstrap/cache"
+    "php artisan view:cache"
 ]
 
 [start]
